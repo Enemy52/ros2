@@ -22,4 +22,5 @@ pip install pynput
 W 前进 / S 后退 / A 左转 / D 右转 / Q 上升 / E 下降
 
 ## 演示
-![演示](./docs/assets/drone_keyboard_demo.gif)
+![演示](https://github.com/Enemy52/ros2/raw/master/drone_keyboard_control/docs/assets/drone_keyboard_demo.gif)
+
