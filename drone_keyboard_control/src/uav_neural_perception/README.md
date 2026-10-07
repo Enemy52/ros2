@@ -14,5 +14,5 @@ roslaunch uav_neural_perception main.launch
 
 ## 声明
 本项目使用大模型辅助撰写，作者对全部内容负责。
-![Uploading 1. `      drone_keyboard_demo.gif`.gif…]()
+<img width="1167" height="876" alt="1  `      drone_keyboard_demo gif`" src="https://github.com/user-attachments/assets/9c60c49a-fe46-4bf6-9cfa-d65d963b071c" />
 
