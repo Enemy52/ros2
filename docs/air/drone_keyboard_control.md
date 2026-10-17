@@ -70,7 +70,6 @@ Linux 终端默认行缓冲（需按回车），程序通过 `termios` + `tty` �
 
 ![演示](../img/air/drone_keyboard_control/drone_keyboard_demo.gif)
 
-
 ## 7. 参考
 
 * [空域载具 ROS 封装器](../air/ros_pkgs.md)
