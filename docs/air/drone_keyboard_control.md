@@ -68,7 +68,7 @@ Linux 终端默认行缓冲（需按回车），程序通过 `termios` + `tty` �
 
 键盘控制演示（录屏转 GIF，`W 前进 / A 左转 / D 右转 / Q 上升 / E 下降`）：
 
-！[演示](../img/air/drone_keyboard_control/drone_keyboard_demo.gif)
+![演示](../img/air/drone_keyboard_control/drone_keyboard_demo.gif)
 
 ## 7. 参考
 
