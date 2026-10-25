@@ -5,11 +5,18 @@
 ## 运行
 roslaunch uav_neural_perception main.launch
 
+## 安全机制
+- 权重文件缺失或加载失败时，部署节点立即安全停止并给出明确错误日志，**不会**使用随机初始化模型驱动无人机；随机权重仅用于离线自检。
+- 模型输出出现 NaN / inf 等非法值时，节点丢弃本帧指令，不下发速度量。
+- 速度量统一限幅到配置的 `max_vx / max_vy / max_yaw` 安全范围。
+
 ## 文件
 - scripts/dataset.py: 数据采集与预处理
 - scripts/model.py: CNN 回归网络
 - scripts/train.py: 训练脚本
+- scripts/safety.py: 权重加载校验与输出合法性校验（不依赖 ROS）
 - scripts/perception_node.py: ROS 推理节点
+- tests/test_local.py: 本地回归测试（缺失权重、非法输出、限幅等）
 - config/perception.yaml: 参数配置
 
 ## 声明
