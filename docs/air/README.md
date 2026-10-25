@@ -1,46 +1,20 @@
 # 空域载具（Air）模块
 
-本目录为无人机（空域载具）相关模块的文档集合。
+本目录收录无人机等空域载具相关的 ROS 模块文档。站点完整页面导航以侧边栏为准，
+下面列出本课程两个任务直接对应的模块入口。
 
-## 无人机键盘飞行控制
+## 任务①：无人机仿真 + 键盘控制
 
-### 环境
+- [无人机键盘控制（uav_keyboard_control）](./uav_keyboard_control.md)
+- [无人机与 ROS 的桥接模块（carlair_ros_bridge）](./carlair_ros_bridge.md)
+- [建立虚拟机和空域载具之间的连接](./setup_and_connect.md)
+- [空域模拟器的 ROS 封装器](./ros_pkgs.md)
 
-- Ubuntu 16.04
-- ROS Kinetic
-- AirSim 无人机仿真
+## 任务②：前视 CNN 行为克隆视觉导航
 
-### 安装依赖
+- [无人机视觉导航（前视 CNN 行为克隆，uav_neural_perception）](./uav_neural_perception.md)
 
-```bash
-pip install pynput
-```
+## 说明
 
-### 运行步骤
-
-1. 启动无人机仿真环境
-2. 编译工作空间：
-
-   ```bash
-   cd ~/catkin_ws
-   catkin_make
-   source devel/setup.bash
-   ```
-3. 一键启动：
-
-   ```bash
-   roslaunch drone_keyboard_control drone_keyboard_control.launch
-   ```
-
-### 按键说明
-
-| 按键 | 动作 |
-| :--- | :--- |
-| W | 前进 |
-| S | 后退 |
-| A | 左转 |
-| D | 右转 |
-| Q | 上升 |
-| E | 下降 |
-
-> 详细说明见 [无人机键盘控制](./drone_keyboard_control.md)。
+- 各源码包的构建步骤、参数表与本地测试方法，见对应包目录下的 `README.md`。
+- 数据集图像与训练权重不提交本仓库，需在本机采集数据并运行训练脚本后生成。
