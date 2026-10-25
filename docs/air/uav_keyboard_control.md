@@ -113,5 +113,5 @@ python3 tests/test_keyboard_local.py
 
 ## 9. 参考
 
-* [carlair_ros_bridge 桥接模块](../air/carlair_ros_bridge.md)
+* [carlair_ros_bridge 桥接模块](./carlair_ros_bridge.md)
 * [AirSim 无人机 API 参考](https://openhutb.github.io/doc/python_api/#airsim.client.MultirotorClient)
