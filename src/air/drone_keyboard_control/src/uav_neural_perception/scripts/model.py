@@ -4,16 +4,18 @@
 model.py —— CNN 感知模型
 
 输入：机载前视 RGB 摄像头图像（已 resize 到固定尺寸）
-输出：3 维连续控制量 [vx, vy, yaw_rate]
+输出：3 维归一化控制量 [vx_n, vy_n, yaw_n]，落在 [-1, 1]（Tanh 约束）；
+      部署节点推理后需按各轴限幅反归一化回原始速度指令。
 """
 import torch
 import torch.nn as nn
 
 
 class DronePerceptionNet(nn.Module):
-    """简单卷积回归网络：图像 -> 3 维控制量。"""
+    """简单卷积回归网络：图像 -> 3 维归一化控制量。"""
 
-    def __init__(self, input_channels: int = 3, out_dim: int = 3):
+    def __init__(self, input_channels: int = 3, out_dim: int = 3,
+                 dropout: float = 0.3):
         super().__init__()
         self.features = nn.Sequential(
             nn.Conv2d(input_channels, 16, kernel_size=5, stride=2, padding=2),
@@ -30,7 +32,9 @@ class DronePerceptionNet(nn.Module):
             nn.Flatten(),
             nn.Linear(64 * 4 * 4, 128),
             nn.ReLU(inplace=True),
+            nn.Dropout(dropout),
             nn.Linear(128, out_dim),
+            nn.Tanh(),
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -38,8 +42,8 @@ class DronePerceptionNet(nn.Module):
         return self.regressor(x)
 
 
-def build_model() -> DronePerceptionNet:
-    return DronePerceptionNet(input_channels=3, out_dim=3)
+def build_model(dropout: float = 0.3) -> DronePerceptionNet:
+    return DronePerceptionNet(input_channels=3, out_dim=3, dropout=dropout)
 
 
 if __name__ == "__main__":
