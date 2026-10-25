@@ -10,6 +10,7 @@ catkin_package()
 catkin_install_python(PROGRAMS
   scripts/dataset.py
   scripts/model.py
+  scripts/safety.py
   scripts/train.py
   scripts/perception_node.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
