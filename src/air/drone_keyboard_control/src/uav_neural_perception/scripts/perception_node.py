@@ -9,13 +9,18 @@ perception_node.py —— 部署节点：前视图像 -> CNN 推理 -> 发布 /u
 - 模型输出 NaN / inf 等非法值时跳过本帧，不下发速度指令。
 """
 import os
+import sys
 import rospy
 import torch
 from cv_bridge import CvBridge
 from sensor_msgs.msg import Image
 from geometry_msgs.msg import Twist
 
-from dataset import preprocess_image
+# roslaunch 经 devel/lib relay wrapper 启动时，确保同目录源脚本可被优先导入，
+# 避免误命中 devel/lib 下不暴露模块函数的 relay 包装文件。
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from dataset import preprocess_image, denormalize_action
 from model import build_model
 from safety import (
     load_trained_model,
@@ -50,6 +55,12 @@ class NeuralPerceptionNode:
         self.max_vy = float(rospy.get_param("~max_vy", 0.5))
         self.max_yaw = float(rospy.get_param("~max_yaw", 0.4))
 
+        # 在线指令增益：模型回归均值导致动作偏保守，可按轴放大模型已判断出的
+        # 方向信号；默认 1.0 保持原始行为。放大后仍由 sanitize_action 兜底限幅。
+        self.gain_vx = float(rospy.get_param("~gain_vx", 1.0))
+        self.gain_vy = float(rospy.get_param("~gain_vy", 1.0))
+        self.gain_yaw = float(rospy.get_param("~gain_yaw", 1.0))
+
         # 部署侧固定 allow_random=False：权重缺失 / 加载失败在此处安全停止，
         # 不创建发布者、不注册订阅者、不进入推理循环，避免随机模型驱动无人机。
         try:
@@ -72,8 +83,15 @@ class NeuralPerceptionNode:
         tensor = preprocess_image(img_bgr).unsqueeze(0).to(self.device)
 
         with torch.no_grad():
-            action = self.model(tensor)[0].cpu().numpy()
+            action_norm = self.model(tensor)[0].cpu().numpy()
 
+        # 模型输出为归一化 [-1, 1] 空间，先反归一化回原始速度指令，
+        # 再按轴施加在线增益（默认 1.0 不改变行为），最后交由安全层限幅并
+        # 拦截 NaN / inf / 长度异常。
+        action = denormalize_action(action_norm)
+        action = [action[0] * self.gain_vx,
+                  action[1] * self.gain_vy,
+                  action[2] * self.gain_yaw]
         result = sanitize_action(action, self.max_vx, self.max_vy, self.max_yaw)
         if result is None:
             # 非法输出（NaN / inf / 长度异常）：丢弃本帧，禁止下发速度指令。
