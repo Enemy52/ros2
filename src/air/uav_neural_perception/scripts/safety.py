@@ -3,7 +3,7 @@
 """
 safety.py —— 部署安全层：权重加载校验 + 输出合法性校验（不依赖 rospy，便于本地回归测试）。
 
-安全约定（对应审查 Blocking issue）：
+安全约定：
 1. 部署节点在权重缺失或加载失败时必须安全停止，绝不允许随机初始化模型驱动无人机；
 2. 随机权重只允许在离线自检场景由调用方显式开启（allow_random=True）；
 3. 模型输出出现 NaN / inf 等非法值时，禁止下发速度指令。
@@ -55,7 +55,7 @@ def load_trained_model(model_path, device, build_model_fn, allow_random=False, l
     if not os.path.exists(model_path):
         if allow_random:
             _log("warn",
-                 "权重 %s 缺失，离线自检允许使用随机权重（仅限自检，禁止部署飞行）。"
+                 "权重 %s 缺失，自检模式下使用随机权重。"
                  % model_path)
             model = build_model_fn().to(device)
             model.eval()
