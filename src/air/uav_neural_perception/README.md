@@ -16,8 +16,9 @@ roslaunch uav_neural_perception main.launch
 - scripts/train.py: 训练脚本
 - scripts/safety.py: 权重加载校验与输出合法性校验（不依赖 ROS）
 - scripts/perception_node.py: ROS 推理节点
+- scripts/diag_v2.py: 离线诊断（整体 MSE、分方向一致率、转向召回与幅值）
 - tests/test_local.py: 本地回归测试（缺失权重、非法输出、限幅等）
-- config/perception.yaml: 参数配置
+- config/perception.yaml: 参数参考表；部署限幅默认值由 launch 参数与节点默认值给出
 
 ## 声明
 本项目使用大模型辅助撰写，作者对全部内容负责。

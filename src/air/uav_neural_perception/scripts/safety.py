@@ -20,10 +20,6 @@ class WeightLoadError(RuntimeError):
     """权重文件存在但加载/解析/匹配失败（损坏、格式不符、结构不匹配等）。"""
 
 
-class InvalidActionError(RuntimeError):
-    """模型输出包含 NaN / inf 等非法值，禁止下发速度指令。"""
-
-
 def _clip(value, lower, upper):
     """纯 Python 限幅，避免在安全层引入第三方数值库依赖。"""
     if value < lower:

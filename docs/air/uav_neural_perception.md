@@ -62,7 +62,7 @@ Flatten → Linear(1024→128) → ReLU → Dropout(0.3) → Linear(128→3) →
 
 ### 2.5 数据集
 
-采集目录默认 `~/perception_dataset/`（`data.csv` + `images/`），当前训练集共 **6280** 条记录、5932 张图像，动作类别分布：
+采集目录默认 `~/perception_dataset/`（`data.csv` + `images/`），当前训练集共 **6280** 条记录、5932 张独立图像（其中 348 条为重复采集、复用同一图像文件），动作类别分布：
 
 | 动作标签 `(vx, vy, yaw)` | 含义 | 样本数 | 占比 |
 |---|---|---:|---:|
@@ -204,7 +204,7 @@ python3 tests/test_local.py      # 7 项安全与回归用例
 | `scripts/safety.py` | 权重加载校验、输出合法性校验与限幅（不依赖 ROS） |
 | `scripts/perception_node.py` | ROS 部署节点：订阅图像、推理、安全兜底、发布速度指令 |
 | `scripts/diag_v2.py` | 离线诊断：整体 MSE、分方向一致率、转向召回与幅值 |
-| `config/perception.yaml` | 安全限幅与采集目录默认参数 |
+| `config/perception.yaml` | 参数参考表；部署限幅默认值由 launch 参数与节点默认值给出 |
 | `launch/main.launch` | 部署节点启动入口 |
 | `tests/test_local.py` | 缺失权重、非法输出、限幅等本地回归测试 |
 
