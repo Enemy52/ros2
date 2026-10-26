@@ -26,11 +26,11 @@ def check(cond, label):
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-# 兼容两种布局：
+# 兼容两种目录布局：
 #   1) 标准 catkin 扁平包：tests 与 scripts 同级（<pkg>/tests、<pkg>/scripts）；
-#   2) 离线暂存树：包体位于 <root>/src/air/uav_keyboard_control/。
-# 优先以含 package.xml 的目录为包根；离线暂存树无工程文件时，退而定位含
-# scripts/keyboard_control.py 的目录，保证 A/B/C 段纯函数用例可独立运行。
+#   2) 嵌套源码树：包体位于 <root>/src/air/uav_keyboard_control/。
+# 优先以含 package.xml 的目录为包根；否则退而定位含 scripts/keyboard_control.py 的目录，
+# 保证 A/B/C 段纯函数用例可独立运行。
 _C0 = os.path.abspath(os.path.join(HERE, ".."))
 _C1 = os.path.abspath(os.path.join(HERE, "..", "src", "air", "uav_keyboard_control"))
 

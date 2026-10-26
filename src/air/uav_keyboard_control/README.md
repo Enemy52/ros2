@@ -15,7 +15,7 @@
 | `ESC` | 退出 | — | — |
 
 > `Q` 为 `+yaw_rate`（机头右转），`E` 为 `-yaw_rate`（机头左转）。各轴默认幅值见参数表。
-> 若实际飞行方向反了，交换 `keyboard_control.py` 中 `KEY_MAP` 的 `q`/`e` 符号即可（一行）。
+> 若实际飞行方向反了，交换 `keyboard_control.py` 中 `KEY_MAP` 的 `q`/`e` 符号即可。
 
 ## 运行
 
@@ -24,7 +24,7 @@
 ```bash
 source ~/catkin_ws/devel/setup.bash
 
-# 方式 A：roslaunch（作业要求的 launch 启动）
+# 方式 A：roslaunch
 roslaunch uav_keyboard_control main.launch
 
 # 方式 B：rosrun 前台运行

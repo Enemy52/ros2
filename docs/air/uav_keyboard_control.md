@@ -98,7 +98,7 @@ CarlaAir 视口**内置**键盘操控（任务①的「仿真」部分），本�
 python3 tests/test_keyboard_local.py
 ```
 
-桩依赖运行，覆盖：按键映射与符号、速度参数读取、`Twist` 字段映射、
+测试不依赖 ROS / 仿真器，覆盖：按键映射与符号、速度参数读取、`Twist` 字段映射、
 `key_to_cmd` 空键 / 未知键处理，以及 `package.xml` / `CMakeLists` / `main.launch` /
 `keyboard.yaml` 工程文件校验。
 
