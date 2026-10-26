@@ -26,8 +26,26 @@ def check(cond, label):
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.abspath(os.path.join(HERE, ".."))
-PKG = os.path.join(ROOT, "src", "air", "uav_keyboard_control")
+# 兼容两种布局：
+#   1) 标准 catkin 扁平包：tests 与 scripts 同级（<pkg>/tests、<pkg>/scripts）；
+#   2) 离线暂存树：包体位于 <root>/src/air/uav_keyboard_control/。
+# 优先以含 package.xml 的目录为包根；离线暂存树无工程文件时，退而定位含
+# scripts/keyboard_control.py 的目录，保证 A/B/C 段纯函数用例可独立运行。
+_C0 = os.path.abspath(os.path.join(HERE, ".."))
+_C1 = os.path.abspath(os.path.join(HERE, "..", "src", "air", "uav_keyboard_control"))
+
+
+def _find_pkg_root():
+    for c in (_C0, _C1):
+        if os.path.exists(os.path.join(c, "package.xml")):
+            return c
+    for c in (_C0, _C1):
+        if os.path.exists(os.path.join(c, "scripts", "keyboard_control.py")):
+            return c
+    return _C0
+
+
+PKG = _find_pkg_root()
 SCRIPTS = os.path.join(PKG, "scripts")
 sys.path.insert(0, SCRIPTS)
 
