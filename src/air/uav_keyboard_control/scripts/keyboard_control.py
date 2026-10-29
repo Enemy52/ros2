@@ -48,8 +48,8 @@ HELP_TEXT = """
   A / D     左移 / 右移
   R / F     上升 / 下降
   Q / E     右转 / 左转
-  空格      悬停
-  按住按键持续飞行；松开后自动悬停；ESC 退出
+  松开按键   悬停
+  ESC / Ctrl-C 退出
 ============================================================
 """
 
@@ -189,7 +189,7 @@ class KeyboardController(object):
         with RawKeyReader() as reader:
             while not rospy.is_shutdown():
                 key = reader.get_key(timeout=0.03)
-                if key == "\x1b":            # ESC 退出
+                if key in ("\x1b", "\x03"):  # ESC / Ctrl-C 退出
                     print("\n已退出键盘控制")
                     break
                 cmd = self.feed_key(key, now=rospy.Time.now())
