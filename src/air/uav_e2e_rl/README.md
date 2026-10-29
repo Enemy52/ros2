@@ -1,5 +1,8 @@
 # 任务④：端到端视觉导航（PPO + CNN）
 
+## 演示
+![e2e_rl_demo](docs/e2e_rl_demo.gif)
+
 ## 架构
 ```
 /camera/image_raw (640x480 RGB)
